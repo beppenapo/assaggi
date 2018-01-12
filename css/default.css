@@ -8,7 +8,7 @@ li{list-style-type: none;}
 ol>li{list-style-type: decimal;margin-bottom:10px;}
 a:link,a:visited,a:hover,a:active{text-decoration: none;border-bottom:1px transparent;}
 a,a:link,a:visited,a:active{color:#636300;}
-a:hover{color:#3a3a00;border-bottom:1px dotted #636300;}
+a:hover{color:#3a3a00;}
 label[for]{cursor:pointer;}
 
 #menu{font-family: 'Raleway', sans-serif;position: fixed; bottom: 0; top: 0; width: 200px; z-index: 11; background: #252525;color:rgba(255,255,255,0.6);overflow: auto;}
@@ -55,6 +55,11 @@ div.btnMenu{padding:10px 0px; font-size:2rem; border-bottom:1px solid rgba(255,2
 .policySlide{display:none;}
 .toolbar{background:#636300;}
 .toolbar a{color:#fff;padding:10px 5px;display: inline-block;}
+.copertine-list>a{display:inline-block;}
+.copertine-list>a>img{width:auto;height:180px;}
+.tag-list>a{padding: 1px 3px; margin: 3px 3px; border-radius: 4px; border: 1px solid #636300; background: #fff; display: inline-block;}
+.tag-list>a:hover{background: #636300;color:#fff;}
+.tag-list>a>span{margin-right:10px;}
 #content>.container>.section{margin:20px 0px; padding:40px 0px;border-top:1px solid #636300;}
 @media screen and (max-width: 767px){
     #menu{right: -200px;}

@@ -6,13 +6,6 @@ session_start();
     <head>
         <?php require("inc/head.php"); ?>
         <link href="css/default.css" rel="stylesheet" media="screen" />
-        <style media="screen">
-            .copertine-list>a{display:inline-block;}
-            .copertine-list>a>img{width:auto;height:180px;}
-            .tag-list>a{padding: 1px 3px; margin: 3px 3px; border-radius: 4px; border: 1px solid #636300; background: #fff; display: inline-block;}
-            .tag-list>a:hover{background: #636300;color:#fff;}
-            .tag-list>a>span{margin-right:10px;}
-        </style>
     </head>
     <body>
         <?php require("inc/menuTrigger.php") ?>
@@ -31,14 +24,14 @@ session_start();
                         <div id="lastBook" class="panel panel-default">
                             <div class="panel-heading"><h3>Ultimi libri aggiunti</h3></div>
                             <div class="list-group"></div>
-                            <div class="panel-footer"><a href="list.php?filter=title">Sfoglia catalogo per titolo</a></div>
+                            <div class="panel-footer"><a href="list.php?filter=titolo">Sfoglia catalogo per titolo</a></div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div id="lastAuthor" class="panel panel-default">
                             <div class="panel-heading"><h3>Autori suggeriti</h3></div>
                             <div class="list-group"></div>
-                            <div class="panel-footer"><a href="list.php?filter=author">Sfoglia catalogo per autore</a></div>
+                            <div class="panel-footer"><a href="list.php?filter=autore">Sfoglia catalogo per autore</a></div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +40,7 @@ session_start();
                         <div id="copertine" class="panel panel-default">
                             <div class="panel-heading"><h3>Copertine random</h3></div>
                             <div class="copertine-list"></div>
-                            <div class="panel-footer"><a href="list.php?filter=cover">Sfoglia catalogo per immagini</a></div>
+                            <div class="panel-footer"><a href="list.php?filter=immagini">Sfoglia catalogo per immagini</a></div>
                         </div>
                     </div>
                 </div>

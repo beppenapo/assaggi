@@ -120,9 +120,7 @@ $(document).ready(function() {
         $("#content").addClass('contentOpened');
         menuClass = 'menuOpened menuClosed';
         contentClass = 'contentOpened contentClosed';
-        $(".btnMenu").on('click', function(){
-            $("#content").toggleClass(contentClass);
-        });
+        $(".btnMenu").on('click', function(){ $("#content").toggleClass(contentClass); });
     }else {
         menuClass = 'menuOpened';
     }
@@ -130,8 +128,6 @@ $(document).ready(function() {
     $(".btnMenu").on('click', function(){$("#menu").toggleClass(menuClass);});
     $(".toolbar a").click(function() {
         var targetDiv = $(this).attr('href');
-        $('html, body').animate({
-            scrollTop: $(targetDiv).offset().top
-        }, 2000, 'easeOutCubic');
+        $('html, body').animate({ scrollTop: $(targetDiv).offset().top}, 2000, 'easeOutCubic');
     });
 });

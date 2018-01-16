@@ -56,11 +56,11 @@ div.btnMenu{padding:10px 0px; font-size:2rem; border-bottom:1px solid rgba(255,2
 .toolbar{background:#636300;}
 .toolbar a{color:#fff;padding:10px 5px;display: inline-block;}
 .copertine-list>a{display:inline-block;}
-.copertine-list>a>img{width:auto;height:180px;}
+.copertine-list>a>img{width:100%;}
 .tag-list>a{padding: 1px 3px; margin: 3px 3px; border-radius: 4px; border: 1px solid #636300; background: #fff; display: inline-block;}
 .tag-list>a:hover{background: #636300;color:#fff;}
 .tag-list>a>span{margin-right:10px;}
-#content>.container>.section{margin:20px 0px; padding:40px 0px;border-top:1px solid #636300;}
+#content>.container>.section{margin:/*20px*/ 0px; padding:40px 0px;border-top:1px solid #636300;}
 @media screen and (max-width: 767px){
     #menu{right: -200px;}
     #colophon{position:relative;display:block;margin-top:50px;width:100%; background:#fff;}
@@ -68,18 +68,39 @@ div.btnMenu{padding:10px 0px; font-size:2rem; border-bottom:1px solid rgba(255,2
     #colophon h3{font-size:24px;}
     #colophon p{font-size:16px;}
     .toolbar a{font-size:12px;}
+    .copertine-list>a{width:50%;}
 }
 @media (min-width: 768px) and (max-width: 991px) {
     #menu{right: -200px;}
+    #colophon{position:relative;display:block;margin-top:50px;width:100%; background:#fff;}
+    #colophon>div>div{top:40%;}
+    #colophon h3{font-size:24px;}
+    #colophon p{font-size:16px;}
+    .copertine-list>a{width:33.333%;}
+    .copertine-list>a:last-child{display:none;}
 }
 @media (min-width: 992px) and (max-width: 1199px) {
     #menu{right: -200px;}
+    #colophon{position:relative;display:block;margin-top:50px;width:100%; background:#fff;}
+    #colophon>div>div{top:40%;}
+    #colophon h3{font-size:24px;}
+    #colophon p{font-size:16px;}
+    .copertine-list>a{width:33.333%;}
+    .copertine-list>a:last-child{display:none;}
 }
 @media (min-width: 992px) and (max-width: 1199px)and (orientation: landscape){
     #menu{right: -160px;}
+    #content{position:relative;margin-right:40px; padding:30px;}
+    .container{width:100%;}
+    #colophon{position:relative;display:block;margin-top:50px;width:calc(100% - 40px); background:#fff;}
+    #colophon>div>div{top:40%;}
+    #colophon h3{font-size:24px;}
+    #colophon p{font-size:16px;}
     #footer-ico{position: relative;z-index: 1;margin-bottom: -10px;}
     #footer-ico>a{transform: rotate(-50deg);}
     #footer-ico>a:hover{margin-bottom: 10px;transform: rotate(0deg);}
+    .copertine-list>a{width:20%;}
+    .copertine-list>a:last-child{display:inline-block;}
 }
 @media screen and (min-width: 1200px) {
     #menu>nav>ul>li>a{font-size: 2rem;}
@@ -92,4 +113,6 @@ div.btnMenu{padding:10px 0px; font-size:2rem; border-bottom:1px solid rgba(255,2
     #footer-ico{position: relative;z-index: 1;margin-bottom: -10px;}
     #footer-ico>a{transform: rotate(-50deg);}
     #footer-ico>a:hover{margin-bottom: 10px;transform: rotate(0deg);}
+    .copertine-list>a{width:20%;}
+    /*.copertine-list>a>img{width:auto;height:180px;}*/
 }

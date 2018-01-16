@@ -110,6 +110,94 @@ function colophon(){
         ,interval: 5000
     });
 }
+function setFilterAuth(){
+                btnGroup = $("<div/>",{class:'btn-group'}).attr('data-toggle','buttons').appendTo("#filtri");
+                $.ajax({
+                    url: 'connector/connect.list.php',
+                    type: 'POST',
+                    data: {func:'filtroAutore'},
+                    dataType: 'json',
+                    success: function(data){
+                        $.each(data, function(k,v){
+                            label = $("<label/>",{class:'btn btn-default', text:v.lista}).appendTo(btnGroup);
+                            $("<input/>",{type:'radio',name:'filtro'})
+                                .val(v.lista)
+                                .appendTo(label)
+                                .on('change', function(){triggerAuthFilter(v.lista);});
+                            section = $("<div/>",{class:'col-xs-12 cognome'}).attr('data-cognome',v.lista).appendTo(lista);
+                            $("<label/>",{class:'titleSection',text:v.lista}).appendTo(section);
+                        });
+                    }
+                });
+            }
+            function triggerAuthFilter(val){
+                div = $("#filtriDel").html('');
+                label = $("<button/>",{type:'button', class:'btn btn-default', text:'Filtra autori che iniziano con la lettera "'+val+'"'}).prop('disabled',true);
+                delBtn = $("<button/>",{type:'button',name:'resetFilter',class:'btn btn-danger', text:'annulla filtro'}).on('click',function(){resetAuthFilter();});
+                div.append(label,delBtn);
+                $("div.cognome").hide();
+                $("[data-cognome='"+val+"']").show();
+            }
+            function buildAuth(data){
+                setFilterAuth();
+                wrapSize = document.getElementsByClassName('wrapAuthor').offsetWidth;
+                $.ajax({
+                    url: 'connector/connect.list.php',
+                    type: 'POST',
+                    data: {func:'autori'},
+                    dataType: 'json',
+                    success: function(data){
+                        $.each(data, function(k,v){
+                            auth = (!v.nome || v.nome == null) ? v.cognome : v.nome+' '+v.cognome;
+                            pos = v.cognome.toUpperCase().substr(0,1);
+                            wrap = $("<div/>",{class:'wrapAuthor'}).appendTo("[data-cognome='"+pos+"']");
+                            $("<img/>",{class:'img-responsive img-circle', src:"img/autori/"+v.picture}).width(wrapSize).height(wrapSize).appendTo(wrap);
+                            $("<label/>",{text:auth}).appendTo(wrap);
+                            
+                        });
+                    }
+                });
+
+            }
+            function getAuthInfo(auth){
+                var img='';
+                api = 'https://it.wikipedia.org/w/api.php';
+                $.ajax({
+                    url: api,
+                    data:{action:'query',format:'json',formatversion:2,prop:'pageimages|pageterms',piprop:'thumbnail',pithumbsize:600,titles:auth},
+                    dataType: 'jsonp',
+                    async: false,
+                    success: function (x) {
+                        handle(x.query.pages[0].thumbnail.source);
+                    }
+                });
+            }
+
+            function resetAuthFilter(){
+                $("#filtriDel").html('');
+                $("input[name='filtro']").prop('checked',false).parent('label').removeClass('active');
+                $("div.cognome").show();
+            }
+            function buildTitle(){
+                $.ajax({
+                    url: 'connector/connect.list.php',
+                    type: 'POST',
+                    data: {func:'lista'},
+                    dataType: 'json',
+                    success: function(data){
+                        $.each(data, function(k,v){
+                            imgUrl = "img/copertine/"+v.copertina;
+                            //ul = $("#lista");
+                            li = $("<li/>",{class:'list-group-item'}).appendTo(lista);
+                            imgDiv = $("<div/>",{class:'col-xs-3'}).appendTo(li);
+                            datiDiv = $("<div/>",{class:'col-xs-9'}).appendTo(li);
+                            $("<div/>",{class:'clearfix'}).appendTo(li);
+                            $("<img/>",{class:'img-responsive',height:"100px", src:imgUrl}).appendTo(imgDiv);
+                            $("<label/>",{class:'titolo'}).text(v.titolo).appendTo(datiDiv);
+                        });
+                    }
+                });
+            }
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip({container:"body",trigger:"hover focus"});
     wSize = windowSize();

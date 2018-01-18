@@ -94,6 +94,7 @@ session_start();
         <script type="text/javascript">
             ['load', 'orientationchange'].map(function(e) { window.addEventListener(e, colophon); });
             $(document).ready(function(){
+                initLogin();
                 $(".policyTrigger").on('click', function(){
                     $(".policySlide").slideToggle('fast');
                 });

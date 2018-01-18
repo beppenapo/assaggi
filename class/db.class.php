@@ -7,18 +7,6 @@ class Db extends Conn{
     private $string = PDO::PARAM_STR;
     private $integer = PDO::PARAM_INT;
 
-    public function log($table,$record,$operazione,$valori,$user){
-        $sql = 'INSERT INTO main.log(tabella,record,operazione,valori,utente) VALUES (:tabella,:record,:operazione,:valori,:utente);';
-        $pdo = $this->pdo();
-        $exec = $pdo->prepare($sql);
-        $exec->bindParam(":tabella", $table,$this->string);
-        $exec->bindParam(":record", $record,$this->integer);
-        $exec->bindParam(":operazione", $operazione,$this->string);
-        $exec->bindParam(":valori", $valori,$this->string);
-        $exec->bindParam(":utente", $user,$this->integer);
-        try { $exec->execute(); } catch (Exception $e) { return $e->getMessage(); }
-    }
-
     public function simpleSql($sql){
         $pdo = $this->pdo();
         $exec = $pdo->prepare($sql);

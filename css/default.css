@@ -65,9 +65,10 @@ div.btnMenu{padding:10px 0px; font-size:2rem; border-bottom:1px solid rgba(255,2
 #filtri{margin-bottom:10px;}
 #filtriDel>button:first-child{margin-right: 20px;}
 .cognome>.titleSection{display:block; font-size:40px;padding:5px 0px;margin:5px 0px;border-bottom:.5px solid #636300; text-align:center;}
-.wrapAuthor{display:inline-block;margin:15px 5px;vertical-align:top;text-align:center;cursor:pointer;}
-.wrapAuthor>img{display:block;margin:5px auto;padding: 10px; background: #fff; box-shadow: 0px 4px 3px rgba(0,0,0,0.6);}
-.wrapAuthor>*{cursor:pointer;}
+.wrapAuthor{display:inline-block;padding:10px;border-radius: 5px; margin:15px 5px;vertical-align:top;text-align:center;}
+.wrapAuthor:hover{background-color:#9a9a00;}
+.wrapAuthor>div{position:relative;padding:1px;border:1px solid #fff; background-size: cover; background-color: #fff;border-radius: 50%;box-shadow: 0px 4px 3px rgba(0,0,0,0.6);margin:0px auto 5px;}
+.wrapAuthor, .wrapAuthor>*{cursor:pointer;}
 @media screen and (max-width: 767px){
     #menu{right: -200px;}
     #colophon{position:relative;display:block;margin-top:50px;width:100%; background:#fff;}

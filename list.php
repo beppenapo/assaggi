@@ -7,7 +7,7 @@ session_start();
         <?php require("inc/head.php"); ?>
         <link href="css/default.css" rel="stylesheet" media="screen" />
         <style media="screen">
-            
+
         </style>
     </head>
     <body>
@@ -39,6 +39,7 @@ session_start();
             lista = $("#lista");
             if (filter == 'autore') {buildAuth();}
             else if (filter == 'titolo') {buildTitle();}
+            
         </script>
     </body>
 </html>

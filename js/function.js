@@ -90,24 +90,25 @@ function triggerAuthFilter(val){
     $("[data-cognome='"+val+"']").show();
 }
 function fetchAuthBook(el){
-    auth=el.data('auth');
+    content = $("<div/>",{class:'list-group'}).css({"margin-bottom":"0px"});
     $.ajax({
         url: 'connector/connect.list.php',
         type: 'POST',
-        data: {func:'authBook', auth:auth},
+        data: {func:'authBook',id:el.data('auth')},
         dataType: 'json',
         success: function(data){
+            console.log(data);
             $.each(data, function(k,v){
-                
+                $("<a/>",{href:"book.php?book="+v.id, text:v.titolo, class:'list-group-item pop'}).appendTo(content);
             });
         }
     });
-    el.popover({container:'body'}).popover('show');
-    $("body").on('click', function(e){
-        if (!el.is(e.target) && el.has(e.target).length === 0) {el.popover('hide');}
-    });
+    el.popover({container:'#content', html:true, content:content, trigger:'focus',placement:'right'}).popover('show');
+    $(".popover-content").css({"max-height":"300px","overflow":"auto","padding":"0px"});
+    $("body").on('click', function(e){ if (!el.is(e.target) && el.has(e.target).length === 0){el.popover('hide');}});
+    //$("#content").on('scroll', function(){el.popover('hide');});
 }
-function buildAuth(data){
+function buildAuth(){
     setFilterAuth();
     $.ajax({
         url: 'connector/connect.list.php',
@@ -121,8 +122,6 @@ function buildAuth(data){
                 src = (v.picture.indexOf("http") >= 0) ? v.picture : "img/autori/"+v.picture;
                 wrap = $("<div/>",{class:'wrapAuthor animate', title:'libri recensiti'})
                     .attr("data-auth",v.id)
-                    //.attr("data-toggle",'popover')
-                    //.attr("data-trigger",'focus')
                     .appendTo("[data-cognome='"+pos+"']")
                     .on('click', function(){ fetchAuthBook($(this)); });
                 wrapSize = parseInt(wrap.css('width')) - 20;

@@ -89,6 +89,24 @@ function triggerAuthFilter(val){
     $("div.cognome").hide();
     $("[data-cognome='"+val+"']").show();
 }
+function fetchAuthBook(el){
+    auth=el.data('auth');
+    $.ajax({
+        url: 'connector/connect.list.php',
+        type: 'POST',
+        data: {func:'authBook', auth:auth},
+        dataType: 'json',
+        success: function(data){
+            $.each(data, function(k,v){
+                
+            });
+        }
+    });
+    el.popover({container:'body'}).popover('show');
+    $("body").on('click', function(e){
+        if (!el.is(e.target) && el.has(e.target).length === 0) {el.popover('hide');}
+    });
+}
 function buildAuth(data){
     setFilterAuth();
     $.ajax({
@@ -101,10 +119,16 @@ function buildAuth(data){
                 auth = (!v.nome || v.nome == null) ? v.cognome : v.nome+' '+v.cognome;
                 pos = v.cognome.toUpperCase().substr(0,1);
                 src = (v.picture.indexOf("http") >= 0) ? v.picture : "img/autori/"+v.picture;
-                wrap = $("<div/>",{class:'wrapAuthor animate'}).appendTo("[data-cognome='"+pos+"']");
+                wrap = $("<div/>",{class:'wrapAuthor animate', title:'libri recensiti'})
+                    .attr("data-auth",v.id)
+                    //.attr("data-toggle",'popover')
+                    //.attr("data-trigger",'focus')
+                    .appendTo("[data-cognome='"+pos+"']")
+                    .on('click', function(){ fetchAuthBook($(this)); });
                 wrapSize = parseInt(wrap.css('width')) - 20;
                 $("<div/>",{class:'imgWrap'}).width(wrapSize).height(wrapSize).css({"background-image":"url('"+src+"')"}).appendTo(wrap);
                 $("<label/>",{text:auth}).appendTo(wrap);
+
             });
         }
     });

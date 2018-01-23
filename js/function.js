@@ -160,15 +160,33 @@ function buildTitle(){
         data: {func:'lista'},
         dataType: 'json',
         success: function(data){
+            console.log(data);
             $.each(data, function(k,v){
-                imgUrl = "img/copertine/"+v.copertina;
-                //ul = $("#lista");
-                li = $("<li/>",{class:'list-group-item'}).appendTo(lista);
-                imgDiv = $("<div/>",{class:'col-xs-3'}).appendTo(li);
-                datiDiv = $("<div/>",{class:'col-xs-9'}).appendTo(li);
+                li = $("<li/>",{class:'list-group-item listaLibri'}).appendTo(lista);
+                if(v.copertina){
+                    imgUrl = "img/copertine/"+v.copertina;
+                    $("<img/>",{class:'img-responsive', src:imgUrl}).appendTo(li);
+                }else {
+                    $("<i/>",{class:'fa fa-book'}).css({"color":"rgba(0,0,0,.4)"}).appendTo(li);
+                }
+                $("<label/>",{class:'titolo'}).text(v.titolo).appendTo(li);
+                tagWrap = $("<div/>").appendTo(li);
+                tag = v.tag.split(',');
+                for(i in tag){
+                    s = $("<span/>",{class:'tagWrap',text:tag[i]}).appendTo(tagWrap);
+                    $("<i/>",{class:'fa fa-tag'}).appendTo(s);
+                }
+                limit = 500;
+                if(v.descrizione){
+                    descrizione = v.descrizione.length > limit ? v.descrizione.substring(0, limit) + "..." : v.descrizione;
+                }else{
+                    descrizione = 'Nessuna recensione disponibile!<br/>Se hai letto il libro potresti scriverne una tu.<br/>Crea un account e aiutaci a migliorare la qualità delle recensioni.';
+                }
+                $("<p/>",{class:'descrizione'}).html(descrizione).appendTo(li);
                 $("<div/>",{class:'clearfix'}).appendTo(li);
-                $("<img/>",{class:'img-responsive',height:"100px", src:imgUrl}).appendTo(imgDiv);
-                $("<label/>",{class:'titolo'}).text(v.titolo).appendTo(datiDiv);
+                divLink = $("<div/>",{class:'divLink'}).appendTo(li);
+                link = $("<a/>",{href:'book.php?book='+v.id,title:'vai alla scheda del libro', class:'btn btn-warning', role:'button', text:'apri scheda '}).appendTo(divLink);
+                $("<i/>",{class:'fa fa-link'}).appendTo(link);
             });
         }
     });

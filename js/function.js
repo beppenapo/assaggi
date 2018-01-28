@@ -127,7 +127,6 @@ function buildAuth(){
                 wrapSize = parseInt(wrap.css('width')) - 20;
                 $("<div/>",{class:'imgWrap'}).width(wrapSize).height(wrapSize).css({"background-image":"url('"+src+"')"}).appendTo(wrap);
                 $("<label/>",{text:auth}).appendTo(wrap);
-
             });
         }
     });

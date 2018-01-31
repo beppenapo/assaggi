@@ -10,8 +10,8 @@ if(isset($_POST['func']) && function_exists($_POST['func'])) {
 function lista($obj){ return $obj->lista(); }
 function filtroAutore($obj){ return $obj->filtroAutore(); }
 function autori($obj){return $obj->autori();}
-function immagini($obj){}
-function colophon($obj){ return $obj->colophon();}
+function img($obj){return $obj->img();}
+function colophon($obj){return $obj->colophon();}
 function authBook($obj){return $obj->authBook($_POST['id']);}
 // $obj = new Lista($_POST['func'],$dati = array($auth => 165));
 // echo $obj->out;

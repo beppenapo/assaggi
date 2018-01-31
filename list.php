@@ -39,7 +39,8 @@ session_start();
             lista = $("#lista");
             if (filter == 'autore') {buildAuth();}
             else if (filter == 'titolo') {buildTitle();}
-            
+            else if (filter == 'immagini') {buildImg();}
+
         </script>
     </body>
 </html>

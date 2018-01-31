@@ -106,7 +106,6 @@ function fetchAuthBook(el){
     el.popover({container:'#content', html:true, content:content, trigger:'focus',placement:'right'}).popover('show');
     $(".popover-content").css({"max-height":"300px","overflow":"auto","padding":"0px"});
     $("body").on('click', function(e){ if (!el.is(e.target) && el.has(e.target).length === 0){el.popover('hide');}});
-    //$("#content").on('scroll', function(){el.popover('hide');});
 }
 function buildAuth(){
     setFilterAuth();
@@ -152,6 +151,37 @@ function resetAuthFilter(){
     $("input[name='filtro']").prop('checked',false).parent('label').removeClass('active');
     $("div.cognome").show();
 }
+
+function buildImg(){
+    $("#lista").addClass('copertine-list');
+    $.ajax({
+        url: 'connector/connect.list.php',
+        type: 'POST',
+        data: {func:'img'},
+        dataType: 'json',
+        success: function(data){
+            $.each(data, function(k,v){
+                if (v.copertina) {
+                    // link = $("<a/>",{href:'libro.php?book='+v.id}).appendTo("#lista");
+                    link = $("<a/>",{href:'#'}).appendTo("#lista");
+                    $('<img/>', {src:'img/copertine/'+v.copertina,class:'img-responsive img-thumbnail'}).appendTo(link);
+                    link.on('click',function(e){
+                        e.preventDefault();
+                        popContent = $("<div/>",{class:'list-group'});
+                        $("<span/>",{text:v.titolo,class:'list-group-item'}).css({"font-weight":"bold"}).appendTo(popContent);
+                        $("<span/>",{text:v.descrizione, class:'list-group-item'}).appendTo(popContent);
+                        $("<a/>",{text:'apri scheda',class:'list-group-item',href:'book.php?book='+v.id}).appendTo(popContent);
+                        $(this).popover({container:'#content', html:true, content:popContent, trigger:'focus',placement:'top'}).popover('show');
+                        $(".popover-content").css({"max-height":"300px","overflow":"auto","padding":"0px"});
+                        $("body").on('click', function(e){ if (!$(this).is(e.target) && $(this).has(e.target).length === 0){$(this).popover('hide');}});
+                    });
+                }
+            });
+            console.log(data);
+        }
+    });
+}
+
 function buildTitle(){
     $.ajax({
         url: 'connector/connect.list.php',
@@ -169,11 +199,13 @@ function buildTitle(){
                     $("<i/>",{class:'fa fa-book'}).css({"color":"rgba(0,0,0,.4)"}).appendTo(li);
                 }
                 $("<label/>",{class:'titolo'}).text(v.titolo).appendTo(li);
-                tagWrap = $("<div/>").appendTo(li);
-                tag = v.tag.split(',');
-                for(i in tag){
-                    s = $("<span/>",{class:'tagWrap',text:tag[i]}).appendTo(tagWrap);
-                    $("<i/>",{class:'fa fa-tag'}).appendTo(s);
+                tagWrap = $("<div/>",{class:'tag-list'}).css({"margin-top":"10px"}).appendTo(li);
+                if(v.tag){
+                    tag = v.tag.split(',');
+                    for(i in tag){
+                        s = $("<a/>",{href:'list.php?filter=tag&value='+tag[i],text:tag[i]}).css({"font-size":"12px"}).appendTo(tagWrap);
+                        $("<i/>",{class:'fa fa-tag'}).css({"margin-left":"10px"}).appendTo(s);
+                    }
                 }
                 limit = 500;
                 if(v.descrizione){
@@ -190,6 +222,9 @@ function buildTitle(){
         }
     });
 }
+
+
+
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip({container:"body",trigger:"hover focus"});
     wSize = windowSize();

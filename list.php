@@ -15,7 +15,7 @@ session_start();
         <?php require("inc/menu.php") ?>
         <div id="colophon"></div>
         <div id="content" class="animate">
-            <div class="container">
+            <div class="container" id="popoverContainer">
                 <div class="row">
                     <div class="col-xs-12">
                         <h1 class="title">As<span>Saggi</span></h1>
@@ -40,6 +40,11 @@ session_start();
             if (filter == 'autore') {buildAuth();}
             else if (filter == 'titolo') {buildTitle();}
             else if (filter == 'immagini') {buildImg();}
+            else if (filter == 'tag') {
+                tag = '<?php echo $_GET['value']; ?>';
+                buildTagFilter();
+                if(tag){buildTitle(tag);}
+            }
 
         </script>
     </body>

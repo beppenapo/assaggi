@@ -97,13 +97,12 @@ function fetchAuthBook(el){
         data: {func:'authBook',id:el.data('auth')},
         dataType: 'json',
         success: function(data){
-            console.log(data);
             $.each(data, function(k,v){
                 $("<a/>",{href:"book.php?book="+v.id, text:v.titolo, class:'list-group-item pop'}).appendTo(content);
             });
         }
     });
-    el.popover({container:'#content', html:true, content:content, trigger:'focus',placement:'right'}).popover('show');
+    el.popover({container:"#popoverContainer", html:true, placement:"auto right", trigger:"focus", content:content, viewport:'body'}).popover('show');
     $(".popover-content").css({"max-height":"300px","overflow":"auto","padding":"0px"});
     $("body").on('click', function(e){ if (!el.is(e.target) && el.has(e.target).length === 0){el.popover('hide');}});
 }
@@ -120,7 +119,7 @@ function buildAuth(){
                 pos = v.cognome.toUpperCase().substr(0,1);
                 src = (v.picture.indexOf("http") >= 0) ? v.picture : "img/autori/"+v.picture;
                 wrap = $("<div/>",{class:'wrapAuthor animate', title:'libri recensiti'})
-                    .attr("data-auth",v.id)
+                    .attr({"data-auth":v.id})
                     .appendTo("[data-cognome='"+pos+"']")
                     .on('click', function(){ fetchAuthBook($(this)); });
                 wrapSize = parseInt(wrap.css('width')) - 20;
@@ -130,22 +129,22 @@ function buildAuth(){
         }
     });
 }
-function getAuthInfo(id,auth){
-    api = 'https://it.wikipedia.org/w/api.php';
-    obj=[];
-    $.ajax({
-        url: api,
-        data:{action:'query',format:'json',formatversion:2,prop:'pageimages|pageterms',piprop:'thumbnail',pithumbsize:600,titles:auth},
-        dataType: 'jsonp',
-        async: false,
-        success: function (result) {
-            //img = result.query.pages[0].thumbnail ? result.query.pages[0].thumbnail : 'null';
-            if(result.hasOwnProperty('thumbnail')){ img=result.query.pages[0].thumbnail.source; }else {img='null'; }
-            obj.push({auth:id,img:result.query.pages[0].thumbnail.source});
-            //obj=result.query.pages[0].thumbnail.source;
-        }
-    });
-}
+// function getAuthInfo(id,auth){
+//     api = 'https://it.wikipedia.org/w/api.php';
+//     obj=[];
+//     $.ajax({
+//         url: api,
+//         data:{action:'query',format:'json',formatversion:2,prop:'pageimages|pageterms',piprop:'thumbnail',pithumbsize:600,titles:auth},
+//         dataType: 'jsonp',
+//         async: false,
+//         success: function (result) {
+//             //img = result.query.pages[0].thumbnail ? result.query.pages[0].thumbnail : 'null';
+//             if(result.hasOwnProperty('thumbnail')){ img=result.query.pages[0].thumbnail.source; }else {img='null'; }
+//             obj.push({auth:id,img:result.query.pages[0].thumbnail.source});
+//             //obj=result.query.pages[0].thumbnail.source;
+//         }
+//     });
+// }
 function resetAuthFilter(){
     $("#filtriDel").html('');
     $("input[name='filtro']").prop('checked',false).parent('label').removeClass('active');
@@ -162,49 +161,54 @@ function buildImg(){
         success: function(data){
             $.each(data, function(k,v){
                 if (v.copertina) {
-                    // link = $("<a/>",{href:'libro.php?book='+v.id}).appendTo("#lista");
-                    link = $("<a/>",{href:'#'}).appendTo("#lista");
+                    link = $("<a/>",{href:'#', title:v.titolo}).appendTo("#lista");
                     $('<img/>', {src:'img/copertine/'+v.copertina,class:'img-responsive img-thumbnail'}).appendTo(link);
                     link.on('click',function(e){
                         e.preventDefault();
                         popContent = $("<div/>",{class:'list-group'});
-                        $("<span/>",{text:v.titolo,class:'list-group-item'}).css({"font-weight":"bold"}).appendTo(popContent);
-                        $("<span/>",{text:v.descrizione, class:'list-group-item'}).appendTo(popContent);
+                        auth = $.parseJSON(v.autore);
+                        auth = auth.join(', ');
+                        $("<span/>",{text:auth, class:'list-group-item'}).appendTo(popContent);
+                        $("<span/>",{text:v.descrizione, class:'list-group-item'}).css({"display":"block","min-height":"50px","height":"auto","max-height":"150px","overflow":"auto"}).appendTo(popContent);
                         $("<a/>",{text:'apri scheda',class:'list-group-item',href:'book.php?book='+v.id}).appendTo(popContent);
-                        $(this).popover({container:'#content', html:true, content:popContent, trigger:'focus',placement:'top'}).popover('show');
-                        $(".popover-content").css({"max-height":"300px","overflow":"auto","padding":"0px"});
-                        $("body").on('click', function(e){ if (!$(this).is(e.target) && $(this).has(e.target).length === 0){$(this).popover('hide');}});
+                        $(this).popover({container:'#popoverContainer', html:true, content:popContent, trigger:'focus',placement:'auto', viewport:'body'}).popover('show');
+                        css=$(".popover-content").css({"padding":"0px"});
                     });
                 }
             });
-            console.log(data);
+           console.log(data);
         }
     });
 }
 
-function buildTitle(){
+function buildTitle(tag=null){
     $.ajax({
         url: 'connector/connect.list.php',
         type: 'POST',
-        data: {func:'lista'},
+        data: {func:'lista', tag:tag},
         dataType: 'json',
         success: function(data){
             console.log(data);
             $.each(data, function(k,v){
+                auth = $.parseJSON(v.autore);
+                auth = auth.join(', ');
                 li = $("<li/>",{class:'list-group-item listaLibri'}).appendTo(lista);
+                imgDiv = $("<div/>",{class:"col-xs-12 col-md-5"}).appendTo(li);
+                metaDiv = $("<div/>",{class:"col-xs-12 col-md-7"}).appendTo(li);
                 if(v.copertina){
                     imgUrl = "img/copertine/"+v.copertina;
-                    $("<img/>",{class:'img-responsive', src:imgUrl}).appendTo(li);
+                    $("<img/>",{class:'img-responsive', src:imgUrl}).appendTo(imgDiv);
                 }else {
-                    $("<i/>",{class:'fa fa-book'}).css({"color":"rgba(0,0,0,.4)"}).appendTo(li);
+                    $("<i/>",{class:'fa fa-book'}).css({"color":"rgba(0,0,0,.4)"}).appendTo(imgDiv);
                 }
-                $("<label/>",{class:'titolo'}).text(v.titolo).appendTo(li);
-                tagWrap = $("<div/>",{class:'tag-list'}).css({"margin-top":"10px"}).appendTo(li);
+                $("<div/>",{class:'titolo'}).text(v.titolo).appendTo(metaDiv);
+                $("<div/>",{class:'autori'}).text(auth).appendTo(metaDiv);
+                tagWrap = $("<div/>",{class:'tag-list'}).appendTo(metaDiv);
                 if(v.tag){
                     tag = v.tag.split(',');
                     for(i in tag){
-                        s = $("<a/>",{href:'list.php?filter=tag&value='+tag[i],text:tag[i]}).css({"font-size":"12px"}).appendTo(tagWrap);
-                        $("<i/>",{class:'fa fa-tag'}).css({"margin-left":"10px"}).appendTo(s);
+                        s = $("<a/>",{href:'list.php?filter=tag&value='+tag[i],text:tag[i]}).appendTo(tagWrap);
+                        $("<i/>",{class:'fa fa-tag'}).appendTo(s);
                     }
                 }
                 limit = 500;
@@ -213,7 +217,7 @@ function buildTitle(){
                 }else{
                     descrizione = 'Nessuna recensione disponibile!<br/>Se hai letto il libro potresti scriverne una tu.<br/>Crea un account e aiutaci a migliorare la qualità delle recensioni.';
                 }
-                $("<p/>",{class:'descrizione'}).html(descrizione).appendTo(li);
+                $("<div/>",{class:'descrizione'}).html(descrizione).appendTo(metaDiv);
                 $("<div/>",{class:'clearfix'}).appendTo(li);
                 divLink = $("<div/>",{class:'divLink'}).appendTo(li);
                 link = $("<a/>",{href:'book.php?book='+v.id,title:'vai alla scheda del libro', class:'btn btn-warning', role:'button', text:'apri scheda '}).appendTo(divLink);
@@ -223,7 +227,21 @@ function buildTitle(){
     });
 }
 
-
+function buildTagFilter(){
+    $.ajax({
+        url: 'connector/connect.list.php',
+        type: 'POST',
+        data: {func:'tagList'},
+        dataType: 'json',
+        success: function(data){
+            $.each(data, function(k,v){
+                link = $("<a/>",{href:'list.php?filter=tag&value='+v.tag}).appendTo("#filtri");
+                $("<span/>",{text:v.tag}).appendTo(link);
+                $("<i/>",{class:'fas fa-tag'}).appendTo(link);
+            });
+        }
+    });
+}
 
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip({container:"body",trigger:"hover focus"});

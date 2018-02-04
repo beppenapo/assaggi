@@ -15,7 +15,7 @@ $cc = (date('Y')==2018)?"2018":"2018 -".date('Y');
             <li><a href="index.php"><i class="glyphicon glyphicon-home"></i> home</a></li>
             <li><a href="list.php?filter=autore"><i class="glyphicon glyphicon-pencil"></i> autore</a></li>
             <li><a href="list.php?filter=titolo"><i class="glyphicon glyphicon-text-size"></i> titolo</a></li>
-            <li><a href="list.php?filter=genere"><i class="glyphicon glyphicon-tags"></i> genere</a></li>
+            <li><a href="list.php?filter=tag"><i class="glyphicon glyphicon-tags"></i> genere</a></li>
             <li><a href="list.php?filter=immagini"><i class="glyphicon glyphicon-picture"></i> immagini</a></li>
             <?php if (!isset($_SESSION['id'])) { ?>
             <li><a href="login.php"><i class="glyphicon glyphicon-log-in"></i> entra</a></li>

@@ -4,8 +4,9 @@ require("db.class.php");
 class Lista extends Db{
     function __construct(){}
 
-    public function lista(){
-        $sql="select l.id,l.copertina,l.titolo,l.isbn,l.editore,l.anno,l.pagine,l.tag,l.descrizione,l.inserimento, json_agg(trim(a.cognome ||' '||coalesce(a.nome,''))) as autore from libri l, authbook ab, autori a  where ab.libro = l.id and ab.autore = a.id group by l.id order by inserimento desc, titolo asc;";
+    public function lista($tag=null){
+        $tagFilter = $tag==null ? '' : " and l.tag ilike '%".$tag."%' ";
+        $sql="select l.id,l.copertina,l.titolo,l.isbn,l.editore,l.anno,l.pagine,l.tag,l.descrizione,l.inserimento, json_agg(trim(a.cognome ||' '||coalesce(a.nome,''))) as autore from libri l, authbook ab, autori a  where ab.libro = l.id and ab.autore = a.id ".$tagFilter." group by l.id order by inserimento desc, titolo asc;";
         return json_encode($this->simpleSql($sql));
     }
     public function filtroAutore(){
@@ -24,6 +25,9 @@ class Lista extends Db{
     public function authBook($id){
         $sql = "select l.id, l.titolo from libri l, authbook a where a.libro = l.id and a.autore = ".$id." order by 2 asc;";
         return json_encode($this->simpleSql($sql));
+    }
+    public function tagList(){
+        return json_encode($this->simpleSql("select * from liste.tag order by tag asc;"));
     }
 }
 

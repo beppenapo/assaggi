@@ -23,7 +23,7 @@ session_start();
                     </div>
                 </div>
                 <div class="row section">
-                    <h3>Sfoglia catalogo per <strong>"<span><?php echo $_GET['filter'] ?></span>"</strong></h3>
+                    <h3>Sfoglia catalogo per <strong>"<span><?php echo $_POST['filter'];?></span>"</strong></h3>
                     <div id="filtri"></div>
                     <div id="filtriDel"></div>
                 </div>
@@ -35,15 +35,19 @@ session_start();
         <?php require("inc/lib.php"); ?>
         <script type="text/javascript">
             ['load', 'orientationchange'].map(function(e) { window.addEventListener(e, colophon); });
-            filter = '<?php echo $_GET['filter']; ?>';
+            filter = '<?php echo $_POST['filter']; ?>';
             lista = $("#lista");
             if (filter == 'autore') {buildAuth();}
             else if (filter == 'titolo') {buildTitle();}
             else if (filter == 'immagini') {buildImg();}
-            else if (filter == 'tag') {
-                tag = '<?php echo $_GET['value']; ?>';
-                buildTagFilter();
-                if(tag){buildTitle(tag);}
+            else if (filter == 'categoria') {
+                buildCatFilter();
+                tag = '<?php echo $_POST['tag']; ?>';
+                if(tag=='si'){
+                    field = 'tag',
+                    val = '<?php echo $_POST['tagVal']; ?>';
+                    buildTitle(field, val);
+                }
             }
 
         </script>

@@ -26,8 +26,13 @@ class Lista extends Db{
         $sql = "select l.id, l.titolo from libri l, authbook a where a.libro = l.id and a.autore = ".$id." order by 2 asc;";
         return json_encode($this->simpleSql($sql));
     }
-    public function tagList(){
-        return json_encode($this->simpleSql("select * from liste.tag order by tag asc;"));
+    public function catFilter(){
+        $out = array();
+        $tag = $this->simpleSql("select * from liste.tag order by tag asc;");
+        $category = $this->simpleSql("select * from liste.categorie order by categoria asc;");
+        array_push($out,$tag);
+        array_push($out,$category);
+        return json_encode($out);
     }
 }
 

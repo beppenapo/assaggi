@@ -6,17 +6,15 @@ $cc = (date('Y')==2018)?"2018":"2018 -".date('Y');
         <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
         <span>AsSaggi</span>
     </div>
-    <div class="clearfix">
-
-    </div>
+    <div class="clearfix"></div>
     <!-- <header class="col-xs-12"><h3>Nutrimento per la mente</h3></header> -->
     <nav>
         <ul>
             <li><a href="index.php"><i class="glyphicon glyphicon-home"></i> home</a></li>
-            <li><a href="list.php?filter=autore"><i class="glyphicon glyphicon-pencil"></i> autore</a></li>
-            <li><a href="list.php?filter=titolo"><i class="glyphicon glyphicon-text-size"></i> titolo</a></li>
-            <li><a href="list.php?filter=tag"><i class="glyphicon glyphicon-tags"></i> genere</a></li>
-            <li><a href="list.php?filter=immagini"><i class="glyphicon glyphicon-picture"></i> immagini</a></li>
+            <li><a href="list.php" class="postData" data-filter="autore"><i class="glyphicon glyphicon-pencil"></i> autore</a></li>
+            <li><a href="list.php" class="postData" data-filter="titolo"><i class="glyphicon glyphicon-text-size"></i> titolo</a></li>
+            <li><a href="list.php" class="postData" data-filter="categoria"><i class="glyphicon glyphicon-tags"></i> categoria</a></li>
+            <li><a href="list.php" class="postData" data-filter="immagini"><i class="glyphicon glyphicon-picture"></i> immagini</a></li>
             <?php if (!isset($_SESSION['id'])) { ?>
             <li><a href="login.php"><i class="glyphicon glyphicon-log-in"></i> entra</a></li>
             <?php }else{ ?>

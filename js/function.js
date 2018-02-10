@@ -193,8 +193,8 @@ function buildTitle(tag=null){
                 auth = $.parseJSON(v.autore);
                 auth = auth.join(', ');
                 li = $("<li/>",{class:'list-group-item listaLibri'}).appendTo(lista);
-                imgDiv = $("<div/>",{class:"col-xs-12 col-md-5"}).appendTo(li);
-                metaDiv = $("<div/>",{class:"col-xs-12 col-md-7"}).appendTo(li);
+                imgDiv = $("<div/>",{class:"col-xs-12 col-sm-4 col-md-3"}).appendTo(li);
+                metaDiv = $("<div/>",{class:"col-xs-12 col-sm-8 col-md-9"}).appendTo(li);
                 if(v.copertina){
                     imgUrl = "img/copertine/"+v.copertina;
                     $("<img/>",{class:'img-responsive', src:imgUrl}).appendTo(imgDiv);
@@ -207,7 +207,7 @@ function buildTitle(tag=null){
                 if(v.tag){
                     tag = v.tag.split(',');
                     for(i in tag){
-                        s = $("<a/>",{href:'list.php?filter=tag&value='+tag[i],text:tag[i]}).appendTo(tagWrap);
+                        s = $("<a/>",{href:'list.php?filter=categoria&tag=si&tagVal='+tag[i],text:tag[i]}).appendTo(tagWrap);
                         $("<i/>",{class:'fa fa-tag'}).appendTo(s);
                     }
                 }
@@ -227,15 +227,23 @@ function buildTitle(tag=null){
     });
 }
 
-function buildTagFilter(){
+function buildCatFilter(){
     $.ajax({
         url: 'connector/connect.list.php',
         type: 'POST',
-        data: {func:'tagList'},
+        data: {func:'catFilter'},
         dataType: 'json',
         success: function(data){
-            $.each(data, function(k,v){
-                link = $("<a/>",{href:'list.php?filter=tag&value='+v.tag}).appendTo("#filtri");
+            tag = data[0];
+            cat = data[1];
+            $("<div/>",{class:'btn-group', id:'catGroup', role:'group'}).appendTo(filtri);
+            $.each(cat, function(k,v){
+                $("<button/>",{type:'button',name:'categoria',class:'btn btn-default', text:v.categoria}).attr("data-val",v.id).appendTo("#catGroup");
+            });
+            $("<label/>",{class:'alert alert-info'}).text('puoi affinare la ricerca utilizzando le tag').appendTo(filtri);
+            tagList = $("<div/>",{class:'tag-list'}).appendTo("#filtri");
+            $.each(tag, function(k,v){
+                link = $("<a/>",{href:'list.php?filter=categoria&tag=si&tagVal='+v.tag}).appendTo(tagList);
                 $("<span/>",{text:v.tag}).appendTo(link);
                 $("<i/>",{class:'fas fa-tag'}).appendTo(link);
             });
@@ -258,6 +266,13 @@ $(document).ready(function() {
         menuClass = 'menuOpened';
     }
     $("#menu>nav").css("height",wSize.h-footer.h-60);
+    $("#menu .postData").on('click', function(e){
+        e.preventDefault();
+        url = $(this).attr('href');
+        filter = $(this).data('filter');
+        form = '<input type="hidden" name="filter" value="'+filter+'">';
+        $('<form action="'+url+'" method="POST">'+form+'</form>').appendTo('body').submit();
+    });
     $(".btnMenu").on('click', function(){$("#menu").toggleClass(menuClass);});
     $(".toolbar a").click(function() {
         var targetDiv = $(this).attr('href');

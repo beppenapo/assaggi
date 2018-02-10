@@ -13,7 +13,7 @@ function autori($obj){return $obj->autori();}
 function img($obj){return $obj->img();}
 function colophon($obj){return $obj->colophon();}
 function authBook($obj){return $obj->authBook($_POST['id']);}
-function tagList($obj){return $obj->tagList();}
+function catFilter($obj){return $obj->catFilter();}
 // $obj = new Lista($_POST['func'],$dati = array($auth => 165));
 // echo $obj->out;
 ?>

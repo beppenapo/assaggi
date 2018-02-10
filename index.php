@@ -116,7 +116,7 @@ session_start();
                             $('<img/>', {src:'img/copertine/'+v.copertina,class:'img-responsive img-thumbnail'}).appendTo(link);
                         });
                         $.each(tag, function(k,v){
-                            link = $("<a/>",{href:'list.php?filter=tag&value='+v.tag}).appendTo("#tags>.tag-list");
+                            link = $("<a/>",{href:'list.php?filter=categoria&tag=si&tagVal='+v.tag}).appendTo("#tags>.tag-list");
                             $("<span/>",{text:v.tag}).appendTo(link);
                             $("<i/>",{class:'fas fa-tag'}).appendTo(link);
                         });

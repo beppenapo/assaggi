@@ -42,6 +42,31 @@ function getSize(el){
     return {"w":w,"h":h}
 }
 
+function initBookPage(book){
+    $.ajax({
+        url: 'connector/connect.book.php',
+        type: 'POST',
+        data: {func:'scheda', book:book},
+        dataType: 'json',
+        success: function(data){
+            console.log(data);
+            auth = $.parseJSON(data[0].autore);
+            auth = auth.join(', ');
+            if(data[0].copertina){
+                div = $("<div />").css({"background-image":"url('img/copertine/"+data[0].copertina+"')", "width":"100%","height":"100%"});
+                if(data[0].incipit){
+                    innerDiv = $("<div />").appendTo(div);
+                    testo = $("<p />").text('"'+data[0].incipit+'"').appendTo(innerDiv);
+                }
+                div.appendTo("#colophon");
+            }
+            $(".titolo").text(data[0].titolo);
+            $(".autore").text(auth);
+            $(".descrizione").html(data[0].descrizione);
+        }
+    });
+}
+
 function colophon(){
     colophonSize = getSize('colophon');
     $.ajax({
@@ -169,7 +194,9 @@ function buildImg(){
                         auth = $.parseJSON(v.autore);
                         auth = auth.join(', ');
                         $("<span/>",{text:auth, class:'list-group-item'}).appendTo(popContent);
-                        $("<span/>",{text:v.descrizione, class:'list-group-item'}).css({"display":"block","min-height":"50px","height":"auto","max-height":"150px","overflow":"auto"}).appendTo(popContent);
+                        $("<span/>",{text:v.descrizione, class:'list-group-item'})
+                            .css({"display":"block","min-height":"50px","height":"auto","max-height":"150px","overflow":"auto"})
+                            .appendTo(popContent);
                         $("<a/>",{text:'apri scheda',class:'list-group-item',href:'book.php?book='+v.id}).appendTo(popContent);
                         $(this).popover({container:'#popoverContainer', html:true, content:popContent, trigger:'focus',placement:'auto', viewport:'body'}).popover('show');
                         css=$(".popover-content").css({"padding":"0px"});
@@ -180,8 +207,11 @@ function buildImg(){
         }
     });
 }
+function titleFilter(){
 
+}
 function buildTitle(tag=null){
+    ul = $("<ul/>",{id:'listWrap',class:'list-group'}).appendTo(lista);
     $.ajax({
         url: 'connector/connect.list.php',
         type: 'POST',
@@ -192,7 +222,7 @@ function buildTitle(tag=null){
             $.each(data, function(k,v){
                 auth = $.parseJSON(v.autore);
                 auth = auth.join(', ');
-                li = $("<li/>",{class:'list-group-item listaLibri'}).appendTo(lista);
+                li = $("<li/>",{class:'list-group-item listaLibri'}).appendTo(ul);
                 imgDiv = $("<div/>",{class:"col-xs-12 col-sm-4 col-md-3"}).appendTo(li);
                 metaDiv = $("<div/>",{class:"col-xs-12 col-sm-8 col-md-9"}).appendTo(li);
                 if(v.copertina){

@@ -133,13 +133,13 @@ div.btnMenu{padding:10px 0px; font-size:2rem; border-bottom:1px solid rgba(255,2
     #footer-ico{position: relative;z-index: 1;margin-bottom: -10px;}
     #footer-ico>a{transform: rotate(-50deg);}
     #footer-ico>a:hover{margin-bottom: 10px;transform: rotate(0deg);}
-    .copertine-list>a{width:20%;}
+    .copertine-list>a{width:10%;}
     .copertine-list>a:last-child{display:inline-block;}
     .wrapAuthor{width:calc(20% - 10px);}
 }
 @media screen and (min-width: 1200px) {
     #menu>nav>ul>li>a{font-size: 2rem;}
-    #colophon{position:fixed;top:0px;left:0;bottom:0;width:25%; background:#fff;}
+    #colophon{position:fixed;top:0px;left:0;bottom:0;width:25%;}
     #colophon>div>div{top:60%;}
     #colophon h3{font-size:36px;}
     #colophon p{font-size:24px;}
@@ -148,6 +148,6 @@ div.btnMenu{padding:10px 0px; font-size:2rem; border-bottom:1px solid rgba(255,2
     #footer-ico{position: relative;z-index: 1;margin-bottom: -10px;}
     #footer-ico>a{transform: rotate(-50deg);}
     #footer-ico>a:hover{margin-bottom: 10px;transform: rotate(0deg);}
-    .copertine-list>a{width:20%;}
+    .copertine-list>a{width:10%;}
     .wrapAuthor{width:calc(20% - 10px);}
 }

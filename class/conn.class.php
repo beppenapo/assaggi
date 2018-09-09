@@ -10,10 +10,10 @@ class Conn{
     public function __construct(){}
 
     protected function connect(){
-        $this->dbhost = getenv('ASSHOST');
-        $this->dbuser = getenv('ASSUSR');
-        $this->dbpwd = getenv('ASSPWD');
-        $this->dbname = getenv('ASSDB');
+        $this->dbhost = getenv('ASSAGGIHOST');
+        $this->dbuser = getenv('ASSAGGIUSR');
+        $this->dbpwd = getenv('ASSAGGIPWD');
+        $this->dbname = getenv('ASSAGGIDB');
         $this->dsn = "pgsql:host=".$this->dbhost." user=".$this->dbuser." password=".$this->dbpwd." dbname=".$this->dbname;
         $this->conn = new PDO($this->dsn);
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
